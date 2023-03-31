@@ -32,52 +32,41 @@
 
 <body>
     <section>
-
-        <div id="head" class="container-fluid d-flex flex-column align-items-center my-4 py-4">
-            <div class="row">
-                <h2 class="text-center">Presupuesto disponible</h2>
-                <h1 class="text-center mb-4">-$513,513.00</h1>
-                <div class="col bg-primary py-2">
-                    <h5>Ingresos</h5>
-                    <p>$51,351.00</p>
-                </div>
-                <div class="col bg-danger py-2">
-                    <h5>Egresos</h5>
-                    <p>$51,351.00</p>
-                    <p>155.35%</p>
-                </div>
-            </div>
+        <div id="header" class="container-fluid row row-cols-1 justify-content-center bg-light text-center p-5">
         </div>
     </section>
 
-    <div class="container my-4 py-4">
+    <div id="counter"class="container my-4 py-4">
         <form id="myFormulario" class="d-flex justify-content-center">
             <div class="form-group mx-3">
                 <select name="inputType" class="form-select my-3">
-                    <option value="Web">+</option>
-                    <option value="Movil">-</option>
+                    <option value="ingreso">+</option>
+                    <option value="egreso">-</option>
                 </select>
             </div>
             <div class="form-group mx-3">
-                <input name="inputDescription" type="text" class="form-control my-3" value="description" />
+                <input name="inputDescription" type="text" class="form-control my-3" placeholder="Description" />
             </div>
             <div class="form-group mx-3">
-                <input name="inputValue" type="text" class="form-control my-3" pattern="[0-9]+" value="value" />
+                <input name="inputValue" type="text" class="form-control my-3" pattern="[0-9]+" placeholder="Value" />
             </div>
-            <button class="btn"><i class="fa-sharp fa-regular fa-circle-check text-success"></i></button>
+            <button class="btn">
+                <i class="fa-sharp fa-regular fa-circle-check text-success fs-4"></i>
+            </button>
         </form>
-
     </div>
 
     <section>
-        <div class="container my-4 py-4">
+        <div id="table"class="container my-4 py-4">
             <div class="row row-cols-1 row-cols-md-2 g-4 justify-content-center">
                 <div class="col-4">
                     <!-- table-responsive hace que la tabla tenga el scroll cuando se haga pequeña la pantalla, y con table-striped le da las franjas intermedias -->
                     <div class="table-responsive">
                         <table class="table table-striped caption-top">
                             <!-- El caption está POR DENTRO de la tabla, pero es como si se creara un espacio extra para él arribita del header -->
-                            <caption class="text-start">INGRESOS</caption>
+                            <caption class="text-start text-success">
+                                INGRESOS
+                            </caption>
                             <tbody>
                                 <tr>
                                     <td>Proficiency in HTML, CSS, and JavaScript</td>
@@ -98,7 +87,9 @@
                 <div class="col-4">
                     <div class="table-responsive">
                         <table class="table table-striped caption-top">
-                            <caption class="text-start">EGRESOS</caption>
+                            <caption class="text-start text-danger">
+                                EGRESOS
+                            </caption>
                             <tbody>
                                 <tr>
                                     <td>Proficiency in HTML, CSS, and JavaScript</td>
