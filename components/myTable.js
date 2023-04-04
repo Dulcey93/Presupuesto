@@ -1,28 +1,20 @@
 import config from "../storage/config.js";
 export default {
-    showTable(data) {
+    showTable() {
         //Le decimos que el this va a contener lo que haya en el localStorage en la key "myHeader"
-        config.myTable(data);
+        config.myTable();
         Object.assign(this, JSON.parse(localStorage.getItem("myTable")));
         //Creamos el worker
         const ws = new Worker("storage/wsMyTable.js", { type: "module" });
         //Enviamos un mensaje al worker
-        let id = [];
-        let count = 0;
-        // id.push("#title");
-        ws.postMessage({ module: "listTitle", data: this.title });
-        // id.push("#company");
-        ws.postMessage({ module: "displayCompany", data: this.company });
-        id = ["#title", "#company"];
+        ws.postMessage({ module: "displayTable", data: this.flujo});
 
-        //Esta es la respuesta del worker
+         //Esta es la respuesta del worker
         ws.addEventListener("message", (e) => {
-            // Estamos parseando lo que trae el evento mensaje
-            let doc = new DOMParser().parseFromString(e.data, "text/html");
-            // Insertamos en nuestro index, en el selector #company
-            document.querySelector(id[count]).append(...doc.body.children);
+            // Insertamos en nuestro index
+            document.querySelector("#table").innerHTML = e.data;
             //terminamos el trabajo del worker
-            (id.length - 1 == count) ? ws.terminate() : count++;
+            ws.terminate();
         })
     }
 }
