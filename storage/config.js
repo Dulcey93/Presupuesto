@@ -13,22 +13,33 @@ export default {
         });
     },
     myHeader(data) {
+        // validamos el inputType para saber si es ingreso o egreso
         data.inputType === "ingreso" ? this.calcularIngresos(data) : this.calcularEgresos(data);
-        localStorage.setItem("myHeader", JSON.stringify({
-            flujo: {
-                total: `$ ${this.ingresos.reduce((acumulador, objeto) => acumulador + parseInt(objeto.inputValue), 0) - this.egresos.reduce((acumulador, objeto) => acumulador + parseInt(objeto.inputValue), 0)}`,
-                ingresos: this.ingresos.reduce((acumulador, objeto) => acumulador + parseInt(objeto.inputValue), 0),
-                egresos: this.egresos.reduce((acumulador, objeto) => acumulador + parseInt(objeto.inputValue), 0),
-                percent: this.ingresos.reduce((acumulador, objeto) => acumulador + parseInt(objeto.inputValue), 0) != 0 ? ((this.egresos.reduce((acumulador, objeto) => acumulador + parseInt(objeto.inputValue), 0) / this.ingresos.reduce((acumulador, objeto) => acumulador + parseInt(objeto.inputValue), 0)) * 100).toFixed(1) : "DIV 0!"
-            }
-        }))
+        // Creamos el objeto que se va a guardar en el localStorage
+        const myHeader = {
+            total: 0,
+            ingresos: 0,
+            egresos: 0,
+            percent: 0
+        };
+        // Calculamos el total de ingresos
+        myHeader.ingresos = this.ingresos.reduce((acc, cur) => acc + parseInt(cur.inputValue), 0);
+        // Calculamos el total de egresos
+        myHeader.egresos = this.egresos.reduce((acc, cur) => acc + parseInt(cur.inputValue), 0);
+        // Calculamos el porcentaje de egresos
+        myHeader.percent = Math.round((myHeader.egresos / myHeader.ingresos) * 100);
+        // Calculamos el total
+        myHeader.total = myHeader.ingresos - myHeader.egresos;
+        // Guardamos el objeto en el localStorage
+        localStorage.setItem("myHeader", JSON.stringify(myHeader));
     },
     myTable() {
-        localStorage.setItem("myTable", JSON.stringify({
-            flujo: {
-                ingresos: this.ingresos,
-                egresos: this.egresos
-            }
-        }))
+        // Creamos el objeto que se va a guardar en el localStorage
+        const myTable = {
+            ingresos: this.ingresos,
+            egresos: this.egresos
+        };
+        // Guardamos el objeto en el localStorage
+        localStorage.setItem("myTable", JSON.stringify(myTable));
     }
 }

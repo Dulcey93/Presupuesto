@@ -1,5 +1,5 @@
 export let wsMyTable = {
-    displayTable(flujo) {
+    displayTable(myTable) {
         let plantilla = `
         <div class="row row-cols-1 row-cols-md-2 g-4 justify-content-center">
             <div class="col-4">
@@ -11,7 +11,7 @@ export let wsMyTable = {
                             INGRESOS
                         </caption>
                         <tbody>
-                        ${flujo.ingresos
+                        ${myTable.ingresos
                             .map(
                                 (val, id) =>
                                     `
@@ -34,7 +34,7 @@ export let wsMyTable = {
                             EGRESOS
                         </caption>
                         <tbody>
-                        ${flujo.egresos
+                        ${myTable.egresos
                             .map(
                                 (val, id) =>
                             `
