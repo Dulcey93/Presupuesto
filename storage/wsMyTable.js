@@ -44,8 +44,7 @@ export let wsMyTable = {
                                             <td>${val.inputDescription}</td>
                                             <td>${val.inputValue}</td>
                                             <td>${val.porcentaje}%</td>
-                                            <td>${`Hola`}</td>
-                                            
+                                            <td>${`<button class="buttonDrop" value="${id}" id="${id}"><i class="fa-solid fa-trash"></i></button>`}</td>
                                         </tr>
                                     `: ""}
                             `
