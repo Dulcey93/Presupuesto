@@ -1,19 +1,20 @@
 export default {
-    ingresos: (localStorage.getItem("ingresos") ? JSON.parse(localStorage.getItem("ingresos")) : []),
-    egresos: (localStorage.getItem("egresos") ? JSON.parse(localStorage.getItem("egresos")) : []),
     dataAll: {
-        ingresos: this.ingresos,
-        egresos: this.egresos
-    },
+        ingresos: (localStorage.getItem("ingreso") ? JSON.parse(localStorage.getItem("ingreso")) : []),
+        egresos: (localStorage.getItem("egreso") ? JSON.parse(localStorage.getItem("egreso")) : [])
+    }, 
     calcularIngresos(data) {
-        this.ingresos.unshift(data);
-        localStorage.setItem(data.inputType, JSON.stringify(this.ingresos));
+        console.log(data)
+        this.dataAll.ingresos.unshift(data);
+        localStorage.setItem(data.inputType, JSON.stringify(this.dataAll.ingresos))
     },
     calcularEgresos(data) {
-        this.egresos.unshift(data);
-        localStorage.setItem(data.inputType, JSON.stringify(this.egresos))
+        console.log(data)
+        this.dataAll.egresos.unshift(data);
+        localStorage.setItem(data.inputType, JSON.stringify(this.dataAll.egresos))
     },
     myHeader(data) {
+        console.log(data);
         // validamos el inputType para saber si es ingreso o egreso
         (data.inputType === "ingreso") ? this.calcularIngresos(data) : this.calcularEgresos(data);
         let ws = new Worker("./components/myHeader.js", {type:"module"});

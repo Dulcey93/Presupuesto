@@ -1,5 +1,5 @@
-import myHeader from "./components/myHeader.js";
 import myTable from "./components/myTable.js";
+import config from "./storage/config.js";
 
 const form = document.querySelector("#myFormulario");
 
@@ -9,6 +9,7 @@ form.addEventListener("submit", (e) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target));
     data.inputValue = Number(data.inputValue);
-    myHeader.addData(data);
+    config.myHeader(data);
     myTable.show();
+    form.reset();
 });

@@ -12,7 +12,7 @@ let table = {
             plantilla += /*html*/ `
                 <tr>
                     <td>${data.nombre}</td>
-                    <td>${data.valorText}<sup>${data.porcentajeText}</sup></td>
+                    <td>${data.valorText}</td>
                 </tr>
             `;
         });
@@ -40,10 +40,11 @@ let table = {
     },
     showTableEstado(p1){
         let plantilla = /*html*/`
-        <h2>Presupuesto disponible</h2>
         `;
         [p1].forEach((data) => {
             plantilla += /*html*/ `
+            <div id="header_main">
+            <h2>Presupuesto disponible</h2>
             <h1 class="mt-4">${data.sobranteText}</h1>
             <div class="container-fluid col w-25">
                 <div class="row mt-5 row-cols-1">
@@ -60,9 +61,10 @@ let table = {
                     </div>
                 </div>
             </div>
+            </div>
             `;
         });
-        return {plantilla : /*html*/`${plantilla}`, id: "#header"};
+        return {plantilla :`${plantilla}`, id: "#header"};
     }
 }
 self.addEventListener("message", (e)=>{
