@@ -3,13 +3,12 @@ import myTable from "./components/myTable.js";
 
 const form = document.querySelector("#myFormulario");
 
-myHeader.showHeader();
+myTable.show();
 // Datos Ingresados
 form.addEventListener("submit", (e) => {
     e.preventDefault();
     const data = Object.fromEntries(new FormData(e.target));
+    data.inputValue = Number(data.inputValue);
     myHeader.addData(data);
-    myHeader.showHeader();
-    myTable.showTable();
-    form.reset();
+    myTable.show();
 });

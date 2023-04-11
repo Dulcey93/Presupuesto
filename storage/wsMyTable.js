@@ -1,63 +1,70 @@
-export let wsMyTable = {
-    displayTable(myTable) {
-        let plantilla = `
-        <div class="row row-cols-1 row-cols-md-2 g-4 justify-content-center">
-            <div class="col-4">
-                <!-- table-responsive hace que la tabla tenga el scroll cuando se haga pequeña la pantalla, y con table-striped le da las franjas intermedias -->
-                <div class="table-responsive">
-                    <table class="table table-striped caption-top">
-                        <!-- El caption está POR DENTRO de la tabla, pero es como si se creara un espacio extra para él arribita del header -->
-                        <caption class="text-start text-success">
-                            INGRESOS
-                        </caption>
-                        <tbody>
-                        ${myTable.ingresos
-                            .map(
-                                (val, id) =>
-                                    `
-                            ${val? `
-                            <tr>
-                                <td>${val.inputDescription}</td>
-                                <td>${val.inputValue}</td>
-                            </tr>`: ""}
-                            `
-                            )
-                            .join("")}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="table-responsive">
-                    <table class="table table-striped caption-top">
-                        <caption class="text-start text-danger">
-                            EGRESOS
-                        </caption>
-                        <tbody>
-                        ${myTable.egresos
-                            .map(
-                                (val, id) =>
-                            `
-                                ${val? 
-                                    `
-                                        <tr>
-                                            <td>${val.inputDescription}</td>
-                                            <td>${val.inputValue}</td>
-                                            <td>${val.porcentaje}%</td>
-                                            <td>${`<button class="buttonDrop" value="${id}" id="${id}"><i class="fa-solid fa-trash"></i></button>`}</td>
-                                        </tr>
-                                    `: ""}
-                            `
-                            )
-                            .join("")}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>`
-        return plantilla;
+let table = {
+    showTableIngresos(p1){
+        let plantilla = /*html*/`
+            <div class="table-responsive">
+                <table class="table table-striped caption-top">
+                    <caption class="text-start text-success">
+                        INGRESOS
+                    </caption>
+                    <tbody>
+        `;
+        p1.forEach((data) => {
+            plantilla += /*html*/ `
+                <tr>
+                    <td>${data.nombre}</td>
+                    <td>${data.valorText}<sup>${data.porcentajeText}</sup></td>
+                </tr>
+            `;
+        });
+        return {plantilla : /*html*/`${plantilla}</tbody></table></div>`, id: "#ingresos"};
     },
-};
-self.addEventListener("message", (e) => {
-    postMessage(wsMyTable[`${e.data.module}`](e.data.data));
-});
+    showTableEgresos(p1){
+        let plantilla = /*html*/`
+            <div class="table-responsive">
+                <table class="table table-striped caption-top">
+                    <caption class="text-start text-danger">
+                        EGRESOS
+                    </caption>
+                    <tbody>
+        `;
+        p1.forEach((data) => {
+            plantilla += /*html*/ `
+                <tr>
+                    <td>${data.nombre}</td>
+                    <td>${data.valorText}<sup>${data.porcentajeText}</sup></td>
+                    <td>${`<button class="buttonDrop" value="${id}" id="${id}"><i class="fa-solid fa-trash"></i></button>`}</td>
+                </tr>
+            `;
+        });
+        return {plantilla : /*html*/`${plantilla}</tbody></table></div>`, id: "#egresos"};
+    },
+    showTableEstado(p1){
+        let plantilla = /*html*/`
+        <h2>Presupuesto disponible</h2>
+        `;
+        [p1].forEach((data) => {
+            plantilla += /*html*/ `
+            <h1 class="mt-4">${data.sobranteText}</h1>
+            <div class="container-fluid col w-25">
+                <div class="row mt-5 row-cols-1">
+                    <div class="col bg-info mb-3 d-flex justify-content-between">
+                        <h5 class="me-3">Ingresos</h5>
+                        <p>${data.baseText}</p>
+                    </div>
+                    <div class="col bg-danger mb-3 d-flex justify-content-between">
+                        <h5 class="me-3">Egresos</h5>
+                        <div class="d-flex justify-content-between">
+                            <p class="me-2">${data.deudaText}</p>
+                            <p>${data.porcentajeText}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            `;
+        });
+        return {plantilla : /*html*/`${plantilla}`, id: "#header"};
+    }
+}
+self.addEventListener("message", (e)=>{
+    postMessage(table[e.data.module](e.data.p1));
+})

@@ -1,47 +1,22 @@
 export default {
-    ingresos: [],
-    egresos: [],
-    dataLocal: [],
+    ingresos: (localStorage.getItem("ingresos") ? JSON.parse(localStorage.getItem("ingresos")) : []),
+    egresos: (localStorage.getItem("egresos") ? JSON.parse(localStorage.getItem("egresos")) : []),
+    dataAll: {
+        ingresos: this.ingresos,
+        egresos: this.egresos
+    },
     calcularIngresos(data) {
-        this.ingresos.push(data);
+        this.ingresos.unshift(data);
+        localStorage.setItem(data.inputType, JSON.stringify(this.ingresos));
     },
     calcularEgresos(data) {
-        this.egresos.push(data);
-        const totalEgresos = this.egresos.reduce((total, egreso) => total + parseInt(egreso.inputValue), 0);
-        this.egresos.forEach((egreso) => {
-            const porcentaje = parseInt(egreso.inputValue) / totalEgresos * 100;
-            egreso.porcentaje = porcentaje.toFixed(1);
-        });
+        this.egresos.unshift(data);
+        localStorage.setItem(data.inputType, JSON.stringify(this.egresos))
     },
     myHeader(data) {
         // validamos el inputType para saber si es ingreso o egreso
         (data.inputType === "ingreso") ? this.calcularIngresos(data) : this.calcularEgresos(data);
-        // Creamos el objeto que se va a guardar en el localStorage
-        const myHeader = {
-            total: 0,
-            ingresos: 0,
-            egresos: 0,
-            percent: 0
-        };
-        // Calculamos el total de ingresos
-        myHeader.ingresos = this.ingresos.reduce((acc, cur) => acc + parseInt(cur.inputValue), 0);
-        // Calculamos el total de egresos
-        myHeader.egresos = this.egresos.reduce((acc, cur) => acc + parseInt(cur.inputValue), 0);
-        // Calculamos el porcentaje de egresos
-        myHeader.percent = Math.round((myHeader.egresos / myHeader.ingresos) * 100);
-        // Calculamos el total
-        myHeader.total = myHeader.ingresos - myHeader.egresos;
-        // Creamos un array que va a contener los objetos del localStorage
-        this.dataLocal.push(myHeader);
-        localStorage.setItem("myHeader", JSON.stringify(dataLocal));
-    },
-    myTable() {
-        // Creamos el objeto que se va a guardar en el localStorage
-        const myTable = {
-            ingresos: this.ingresos,
-            egresos: this.egresos
-        };
-        // Guardamos el objeto en el localStorage
-        localStorage.setItem("myTable", JSON.stringify(myTable));
+        let ws = new Worker("./components/myHeader.js", {type:"module"});
+        ws.postMessage(this.dataAll);
     }
 }
