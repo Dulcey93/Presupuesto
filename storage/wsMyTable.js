@@ -1,5 +1,5 @@
 let table = {
-    showTableIngresos(p1){
+    showTableIngresos(p1) {
         let plantilla = /*html*/`
             <div class="table-responsive">
                 <table class="table table-striped caption-top">
@@ -8,17 +8,18 @@ let table = {
                     </caption>
                     <tbody>
         `;
-        p1.forEach((data) => {
+        p1.forEach((data, id) => {
             plantilla += /*html*/ `
                 <tr>
                     <td>${data.nombre}</td>
                     <td>${data.valorText}</td>
+                    <td>${`<button class="buttonDrop" value="${id}" id="${id}"><i class="fa-solid fa-trash"></i></button>`}</td>
                 </tr>
             `;
         });
-        return {plantilla : /*html*/`${plantilla}</tbody></table></div>`, id: "#ingresos"};
+        return { plantilla: /*html*/`${plantilla}</tbody></table></div>`, id: "#ingresos" };
     },
-    showTableEgresos(p1){
+    showTableEgresos(p1) {
         let plantilla = /*html*/`
             <div class="table-responsive">
                 <table class="table table-striped caption-top">
@@ -27,18 +28,20 @@ let table = {
                     </caption>
                     <tbody>
         `;
-        p1.forEach((data) => {
+        p1.forEach((data, id) => {
             plantilla += /*html*/ `
-                <tr>
+                <tr id="tr-${id}">
                     <td>${data.nombre}</td>
-                    <td>${data.valorText}<sup>${data.porcentajeText}</sup></td>
+                    <td>${data.valorText}</td>
+                    <td>${data.porcentajeText}</td>
                     <td>${`<button class="buttonDrop" value="${id}" id="${id}"><i class="fa-solid fa-trash"></i></button>`}</td>
                 </tr>
             `;
         });
-        return {plantilla : /*html*/`${plantilla}</tbody></table></div>`, id: "#egresos"};
+        plantilla += /*html*/ `</tbody></table></div>`;
+        return { plantilla: plantilla, id: "#egresos" };
     },
-    showTableEstado(p1){
+    showTableEstado(p1) {
         let plantilla = /*html*/`
         `;
         [p1].forEach((data) => {
@@ -64,9 +67,9 @@ let table = {
             </div>
             `;
         });
-        return {plantilla :`${plantilla}`, id: "#header"};
+        return { plantilla: `${plantilla}`, id: "#header" };
     }
 }
-self.addEventListener("message", (e)=>{
+self.addEventListener("message", (e) => {
     postMessage(table[e.data.module](e.data.p1));
 })
